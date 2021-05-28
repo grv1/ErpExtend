@@ -1,5 +1,9 @@
 {
-    "name": "Erp Extender",
-    "version": "0.0",
-    "description": "Aid for Erp"
-  }
+	"manifest_version": 2,
+	"name": "ERP Extend",
+	"version": "1.0",
+	"description": "An extension to simplify things on ERP BITS Goa!",
+	"browser_action": {
+		"default_popup": "popup.html"
+	}
+}
