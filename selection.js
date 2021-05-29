@@ -1427,12 +1427,16 @@ window.onload = () => {
 
 	courses.forEach((course) => {
 		const option = document.createElement('option');
-		option.text = course.course_no;
+		option.text = course.course_no + ' : ' + course.course_title;
 		dataList.appendChild(option);
 	});
 
 	chrome.storage.sync.get('selectedCourses', (e) => {
-		selectedList = e.selectedCourses;
+		selectedList = e.selectedCourses || ['', '', '', ''];
+
+		if (selectedList.length == 0) {
+			selectedList = ['', '', '', ''];
+		}
 
 		selectedList.forEach((course, index) => {
 			addInput(course, index);
