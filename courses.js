@@ -1,4 +1,4 @@
-const courses = [
+export default courses = [
 	{
 		course_no: 'EEE F418',
 		course_title: 'MODERN COMMUNICATION TECHNOLOGIES',
@@ -1391,50 +1391,3 @@ const courses = [
 		course_id: 4349
 	}
 ];
-
-window.onload = () => {
-	const container = document.getElementById('container');
-	const addBtn = document.getElementById('addBtn');
-	const submitBtn = document.getElementById('submitBtn');
-	const dataList = document.getElementById('courses');
-
-	chrome.storage.sync.get('selectedCourses', (e) => {
-		console.log(e);
-	});
-
-	courses.forEach((course) => {
-		const option = document.createElement('option');
-		option.text = course.course_no;
-		dataList.appendChild(option);
-	});
-
-	const arr = [];
-
-	const addInput = () => {
-		const inputElement = document.createElement('input');
-
-		inputElement.setAttribute('list', 'courses');
-		inputElement.id = arr.length;
-		inputElement.style.display = 'block';
-		inputElement.className =
-			'py-2 px-4 rounded-lg text-blue-dark font-bold text-lg focus:outline-none';
-
-		arr.push('');
-
-		inputElement.onchange = function (e) {
-			arr[inputElement.id] = e.target.value;
-			console.log(arr);
-		};
-
-		container.appendChild(inputElement);
-	};
-
-	const submitHandler = () => {
-		chrome.storage.sync.set({ selectedCourses: arr }, () => {
-			console.log('Success');
-		});
-	};
-
-	addBtn.addEventListener('click', addInput);
-	submitBtn.addEventListener('click', submitHandler);
-};
