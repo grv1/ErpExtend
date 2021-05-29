@@ -1410,8 +1410,12 @@ window.onload = () => {
 		inputElement.className =
 			'py-2 px-4 rounded-lg text-blue-dark font-bold text-lg focus:outline-none';
 
-		inputElement.onchange = function (e) {
+		inputElement.onchange = (e) => {
 			selectedList[inputElement.id] = e.target.value;
+		};
+
+		inputElement.onfocus = () => {
+			inputElement.select();
 		};
 
 		container.appendChild(inputElement);
@@ -1421,7 +1425,7 @@ window.onload = () => {
 	const submitHandler = () => {
 		selectedList = selectedList.filter((course) => course.length > 0);
 		chrome.storage.sync.set({ selectedCourses: selectedList }, () => {
-			console.log('Success');
+			window.close();
 		});
 	};
 
