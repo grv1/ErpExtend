@@ -1392,15 +1392,38 @@ const courses = [
 	}
 ];
 
+let selectedList = [];
+
 window.onload = () => {
 	const container = document.getElementById('container');
 	const addBtn = document.getElementById('addBtn');
 	const submitBtn = document.getElementById('submitBtn');
 	const dataList = document.getElementById('courses');
 
-	chrome.storage.sync.get('selectedCourses', (e) => {
-		console.log(e);
-	});
+	const addInput = (val, id) => {
+		const inputElement = document.createElement('input');
+
+		inputElement.setAttribute('list', 'courses');
+		inputElement.id = id;
+		inputElement.value = val;
+		inputElement.style.display = 'block';
+		inputElement.className =
+			'py-2 px-4 rounded-lg text-blue-dark font-bold text-lg focus:outline-none';
+
+		inputElement.onchange = function (e) {
+			selectedList[inputElement.id] = e.target.value;
+		};
+
+		container.appendChild(inputElement);
+		console.log(container);
+	};
+
+	const submitHandler = () => {
+		selectedList = selectedList.filter((course) => course.length > 0);
+		chrome.storage.sync.set({ selectedCourses: selectedList }, () => {
+			console.log('Success');
+		});
+	};
 
 	courses.forEach((course) => {
 		const option = document.createElement('option');
@@ -1408,33 +1431,14 @@ window.onload = () => {
 		dataList.appendChild(option);
 	});
 
-	const arr = [];
+	chrome.storage.sync.get('selectedCourses', (e) => {
+		selectedList = e.selectedCourses;
 
-	const addInput = () => {
-		const inputElement = document.createElement('input');
-
-		inputElement.setAttribute('list', 'courses');
-		inputElement.id = arr.length;
-		inputElement.style.display = 'block';
-		inputElement.className =
-			'py-2 px-4 rounded-lg text-blue-dark font-bold text-lg focus:outline-none';
-
-		arr.push('');
-
-		inputElement.onchange = function (e) {
-			arr[inputElement.id] = e.target.value;
-			console.log(arr);
-		};
-
-		container.appendChild(inputElement);
-	};
-
-	const submitHandler = () => {
-		chrome.storage.sync.set({ selectedCourses: arr }, () => {
-			console.log('Success');
+		selectedList.forEach((course, index) => {
+			addInput(course, index);
 		});
-	};
+	});
 
-	addBtn.addEventListener('click', addInput);
+	addBtn.addEventListener('click', () => addInput('', selectedList.length));
 	submitBtn.addEventListener('click', submitHandler);
 };
