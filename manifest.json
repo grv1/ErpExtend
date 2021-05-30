@@ -1,10 +1,16 @@
 {
-	"manifest_version": 3,
+	"manifest_version": 2,
 	"name": "ERP Extend",
 	"version": "1.0",
 	"description": "An extension to simplify things on ERP BITS Goa!",
-	"action": {
+	"browser_action": {
 		"default_popup": "popup.html"
 	},
-	"permissions": ["storage"]
+	"content_scripts": [
+		{
+			"matches": ["https://sis.erp.bits-pilani.ac.in/*"],
+			"js": ["content.js"]
+		}
+	],
+	"permissions": ["tabs", "storage", "https://sis.erp.bits-pilani.ac.in/*"]
 }
