@@ -6,11 +6,5 @@
 	"browser_action": {
 		"default_popup": "popup.html"
 	},
-	"content_scripts": [
-		{
-			"matches": ["https://sis.erp.bits-pilani.ac.in/*"],
-			"js": ["content.js"]
-		}
-	],
 	"permissions": ["tabs", "storage", "https://sis.erp.bits-pilani.ac.in/*"]
 }

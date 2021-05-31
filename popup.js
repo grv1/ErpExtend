@@ -15,23 +15,7 @@ window.onload = () => {
 		chrome.tabs.create({ url: chrome.runtime.getURL('selection.html') });
 	});
 
-	// executeBtn.addEventListener('click', () => {
-	// 	chrome.tabs.query(
-	// 		{
-	// 			active: true,
-	// 			currentWindow: true
-	// 		},
-	// 		(tabs) => {
-	// 			chrome.scripting.executeScript(
-	// 				{
-	// 					target: { tabId: tabs[0].id },
-	// 					files: ['content.js']
-	// 				},
-	// 				() => {
-	// 					console.log('DONE');
-	// 				}
-	// 			);
-	// 		}
-	// 	);
-	// });
+	executeBtn.addEventListener('click', () => {
+		chrome.tabs.executeScript(null, { file: 'content.js' });
+	});
 };
