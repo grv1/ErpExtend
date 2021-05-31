@@ -1424,7 +1424,16 @@ window.onload = () => {
 
 	const submitHandler = () => {
 		selectedList = selectedList.filter((course) => course.length > 0);
-		chrome.storage.sync.set({ selectedCourses: selectedList }, () => {
+
+		const modifiedList = [];
+		selectedList.forEach((item) => {
+			modifiedList.push({
+				name: item,
+				status: false
+			});
+		});
+
+		chrome.storage.sync.set({ selectedCourses: modifiedList }, () => {
 			window.close();
 		});
 	};
@@ -1440,6 +1449,10 @@ window.onload = () => {
 
 		if (selectedList.length == 0) {
 			selectedList = ['', '', '', ''];
+		} else {
+			selectedList.forEach((item, index) => {
+				selectedList[index] = item.name;
+			});
 		}
 
 		selectedList.forEach((course, index) => {

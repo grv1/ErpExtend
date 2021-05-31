@@ -6,7 +6,7 @@ window.onload = () => {
 	chrome.storage.sync.get('selectedCourses', (e) => {
 		e.selectedCourses.forEach((course) => {
 			const li = document.createElement('li');
-			li.textContent = course;
+			li.textContent = course.name + '       ' + course.status;
 			courseList.appendChild(li);
 		});
 	});

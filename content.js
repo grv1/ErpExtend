@@ -27,11 +27,13 @@ const helperByClassName = (className) => {
  * Code
  */
 let courses = [];
+let finalList = [];
 chrome.storage.sync.get('selectedCourses', (e) => {
 	e.selectedCourses.forEach((course) => {
-		const temp = course.split(' : ')[0].split(' ');
+		const temp = course.name.split(' : ')[0].split(' ');
 		courses.push(temp[0] + ERP_BS + temp[1]);
 	});
+	finalList = e.selectedCourses;
 });
 
 setInterval(function () {
@@ -41,18 +43,31 @@ setInterval(function () {
 
 setInterval(function () {
 	if (helperById(NEW_SEARCH_BTN) != null) {
-		t = helperByClassName(ITEM_CLASS).length;
-		for (var i = 0; i < t; i++) {
-			if (
-				helperByClassName(ITEM_CLASS)[i].innerHTML.search(courses[0]) !=
-				-1
-			) {
-				console.log('Found');
-			}
+		const listSize = helperByClassName(ITEM_CLASS).length;
+
+		for (let i = 0; i < listSize; i++) {
+			courses.forEach((course, index) => {
+				if (
+					helperByClassName(ITEM_CLASS)[i].innerHTML.search(course) !=
+					-1
+				) {
+					finalList[index].status = true;
+				}
+			});
 		}
+
+		chrome.storage.sync.set({
+			selectedCourses: finalList
+		});
+
+		courses.forEach((_, index) => {
+			finalList[index].status = false;
+		});
+
+		chrome.runtime.sendMessage({ todo: 'showCoursesNotif' });
 	}
 }, 5000);
 
 setInterval(function () {
 	if (helperById(NEW_SEARCH_BTN) != null) helperById(NEW_SEARCH_BTN).click();
-}, 10000);
+}, 9000);
