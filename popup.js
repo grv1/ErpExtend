@@ -4,11 +4,13 @@ window.onload = () => {
 	const courseList = document.getElementById('courseList');
 
 	chrome.storage.sync.get('selectedCourses', (e) => {
-		e.selectedCourses.forEach((course) => {
-			const li = document.createElement('li');
-			li.textContent = course.name + '       ' + course.status;
-			courseList.appendChild(li);
-		});
+		if (e.selectedCourses) {
+			e.selectedCourses.forEach((course) => {
+				const li = document.createElement('li');
+				li.textContent = course.name + '       ' + course.status;
+				courseList.appendChild(li);
+			});
+		}
 	});
 
 	selectBtn.addEventListener('click', () => {

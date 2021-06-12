@@ -316,8 +316,7 @@ const courses = [
 	},
 	{
 		course_no: 'BIO F217',
-		course_title:
-			'LABORATORY FOR WATER, SANITATION AND SOLID WASTE MANAGEMENT',
+		course_title: 'LABORATORY FOR WATER, SANITATION AND SOLID WASTE MANAGEMENT',
 		course_id: 4074
 	},
 	{
@@ -1408,10 +1407,10 @@ window.onload = () => {
 		inputElement.value = val;
 		inputElement.style.display = 'block';
 		inputElement.className =
-			'py-2 px-4 rounded-lg text-blue-dark font-bold text-lg focus:outline-none';
+			'py-2 px-4 rounded-lg text-blue-dark font-bold text-base focus:outline-none';
 
 		inputElement.onchange = (e) => {
-			selectedList[inputElement.id] = e.target.value;
+			selectedList[inputElement.id] = e.target.value.trim();
 		};
 
 		inputElement.onfocus = () => {
@@ -1445,7 +1444,7 @@ window.onload = () => {
 	});
 
 	chrome.storage.sync.get('selectedCourses', (e) => {
-		selectedList = e.selectedCourses || ['', '', '', ''];
+		selectedList = e.selectedCourses || [];
 
 		if (selectedList.length == 0) {
 			selectedList = ['', '', '', ''];
