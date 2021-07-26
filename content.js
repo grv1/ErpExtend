@@ -1,26 +1,26 @@
 /**
  * Helper Strings
  */
-const FRAME = 'ptifrmtgtframe';
+const FRAME = 'main_target_win0';
 const SEARCH_BTN = 'CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH';
-const SAVE_BTN = 'ICSave';
-const NEW_SEARCH_BTN = 'CLASS_SRCH_WRK2_SSR_PB_NEW_SEARCH';
-const ITEM_CLASS = 'SSSHYPERLINKBOLD';
-const ERP_BS = '&nbsp;&nbsp;&nbsp;&nbsp; ';
+const SAVE_BTN = '#ICSave';
+const MODIFY_SEARCH_BTN = 'CLASS_SRCH_WRK2_SSR_PB_MODIFY';
+const ITEM_CLASS = 'PSHYPERLINK';
+const COURSES_QUERY = '[id^="win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$"]';
 
 /**
  * Helper Functions
  */
 const helperById = (id) => {
-	return document
-		.getElementById(FRAME)
-		.contentWindow.document.getElementById(id);
+	return document.getElementById(FRAME).contentWindow.document.getElementById(id);
 };
 
 const helperByClassName = (className) => {
-	return document
-		.getElementById(FRAME)
-		.contentWindow.document.getElementsByClassName(className);
+	return document.getElementById(FRAME).contentWindow.document.getElementsByClassName(className);
+};
+
+const helperByQuerySelector = (query) => {
+	return document.getElementById(FRAME).contentWindow.document.querySelectorAll(query);
 };
 
 /**
@@ -29,9 +29,10 @@ const helperByClassName = (className) => {
 let courses = [];
 let finalList = [];
 chrome.storage.sync.get('selectedCourses', (e) => {
-	e.selectedCourses.forEach((course) => {
+	console.log(e.selectedCourses);
+	e.selectedCourses?.forEach((course) => {
 		const temp = course.name.split(' : ')[0].split(' ');
-		courses.push(temp[0] + ERP_BS + temp[1]);
+		courses.push(temp[0] + ' ' + temp[1]);
 	});
 	finalList = e.selectedCourses;
 });
@@ -42,15 +43,12 @@ setInterval(function () {
 }, 2500);
 
 setInterval(function () {
-	if (helperById(NEW_SEARCH_BTN) != null) {
-		const listSize = helperByClassName(ITEM_CLASS).length;
+	if (helperById(MODIFY_SEARCH_BTN) != null) {
+		const listSize = helperByQuerySelector(COURSES_QUERY).length;
 
 		for (let i = 0; i < listSize; i++) {
 			courses.forEach((course, index) => {
-				if (
-					helperByClassName(ITEM_CLASS)[i].innerHTML.search(course) !=
-					-1
-				) {
+				if (helperByQuerySelector(COURSES_QUERY)[i].innerText.search(course) != -1) {
 					finalList[index].status = true;
 				}
 			});
@@ -69,5 +67,5 @@ setInterval(function () {
 }, 5000);
 
 setInterval(function () {
-	if (helperById(NEW_SEARCH_BTN) != null) helperById(NEW_SEARCH_BTN).click();
+	if (helperById(MODIFY_SEARCH_BTN) != null) helperById(MODIFY_SEARCH_BTN).click();
 }, 9000);
