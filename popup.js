@@ -1,6 +1,7 @@
 window.onload = () => {
 	const selectBtn = document.getElementById('select');
 	const executeBtn = document.getElementById('execute');
+	const stopBtn = document.getElementById('stop');
 	const courseList = document.getElementById('courseList');
 
 	chrome.storage.sync.get('selectedCourses', (e) => {
@@ -19,5 +20,12 @@ window.onload = () => {
 
 	executeBtn.addEventListener('click', () => {
 		chrome.tabs.executeScript(null, { file: 'content.js' });
+	});
+
+	stopBtn.addEventListener('click', () => {
+		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+			const activeTab = tabs[0];
+			chrome.tabs.sendMessage(activeTab.id, { message: 'stop' });
+		});
 	});
 };

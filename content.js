@@ -37,10 +37,17 @@ chrome.storage.sync.get('selectedCourses', (e) => {
 	finalList = e.selectedCourses;
 });
 
-setInterval(function () {
+const clickRepeat = setInterval(function () {
 	helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
 	helperById(SAVE_BTN) && helperById(SAVE_BTN).click();
 }, 2500);
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	if (request.message === 'stop') {
+		clearInterval(clickRepeat);
+		console.log('HEHE');
+	}
+});
 
 setInterval(function () {
 	if (helperById(MODIFY_SEARCH_BTN) != null) {
