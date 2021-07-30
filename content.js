@@ -1,21 +1,18 @@
 /**
  * Helper Strings
  */
-const FRAME = 'main_target_win0';
+const FRAME = 'ptifrmtgtframe';
 const SEARCH_BTN = 'CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH';
 const SAVE_BTN = '#ICSave';
 const MODIFY_SEARCH_BTN = 'CLASS_SRCH_WRK2_SSR_PB_MODIFY';
 const ITEM_CLASS = 'PSHYPERLINK';
 const COURSES_QUERY = '[id^="win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$"]';
+const DEGREE_SELECT = 'SSR_CLSRCH_WRK_ACAD_CAREER$2';
 
 /**
  * Helper Functions
  */
 const helperById = (id) => {
-	return document.getElementById(id);
-};
-
-const helperByFrameAndId = (id) => {
 	return document.getElementById(FRAME).contentWindow.document.getElementById(id);
 };
 
@@ -33,7 +30,6 @@ const helperByQuerySelector = (query) => {
 let courses = [];
 let finalList = [];
 chrome.storage.sync.get('selectedCourses', (e) => {
-	console.log(e.selectedCourses);
 	e.selectedCourses?.forEach((course) => {
 		const temp = course.name.split(' : ')[0].split(' ');
 		courses.push(temp[0] + ' ' + temp[1]);
@@ -42,9 +38,10 @@ chrome.storage.sync.get('selectedCourses', (e) => {
 });
 
 const clickRepeat = setInterval(function () {
+	helperById(DEGREE_SELECT) && (helperById(DEGREE_SELECT).selectedIndex = 4);
 	helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
-	helperByFrameAndId(SEARCH_BTN) && helperByFrameAndId(SEARCH_BTN).click();
-	helperByFrameAndId(SAVE_BTN) && helperByFrameAndId(SAVE_BTN).click();
+	helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
+	helperById(SAVE_BTN) && helperById(SAVE_BTN).click();
 }, 2500);
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -54,7 +51,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 setInterval(function () {
-	if (helperByFrameAndId(MODIFY_SEARCH_BTN) != null) {
+	if (helperById(MODIFY_SEARCH_BTN) != null) {
 		const listSize = helperByQuerySelector(COURSES_QUERY).length;
 
 		for (let i = 0; i < listSize; i++) {
@@ -78,6 +75,5 @@ setInterval(function () {
 }, 5000);
 
 setInterval(function () {
-	if (helperByFrameAndId(MODIFY_SEARCH_BTN) != null)
-		helperByFrameAndId(MODIFY_SEARCH_BTN).click();
+	if (helperById(MODIFY_SEARCH_BTN) != null) helperById(MODIFY_SEARCH_BTN).click();
 }, 9000);
