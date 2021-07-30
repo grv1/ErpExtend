@@ -12,6 +12,10 @@ const COURSES_QUERY = '[id^="win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$"]';
  * Helper Functions
  */
 const helperById = (id) => {
+	return document.getElementById(id);
+};
+
+const helperByFrameAndId = (id) => {
 	return document.getElementById(FRAME).contentWindow.document.getElementById(id);
 };
 
@@ -39,18 +43,18 @@ chrome.storage.sync.get('selectedCourses', (e) => {
 
 const clickRepeat = setInterval(function () {
 	helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
-	helperById(SAVE_BTN) && helperById(SAVE_BTN).click();
+	helperByFrameAndId(SEARCH_BTN) && helperByFrameAndId(SEARCH_BTN).click();
+	helperByFrameAndId(SAVE_BTN) && helperByFrameAndId(SAVE_BTN).click();
 }, 2500);
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	if (request.message === 'stop') {
 		clearInterval(clickRepeat);
-		console.log('HEHE');
 	}
 });
 
 setInterval(function () {
-	if (helperById(MODIFY_SEARCH_BTN) != null) {
+	if (helperByFrameAndId(MODIFY_SEARCH_BTN) != null) {
 		const listSize = helperByQuerySelector(COURSES_QUERY).length;
 
 		for (let i = 0; i < listSize; i++) {
@@ -74,5 +78,6 @@ setInterval(function () {
 }, 5000);
 
 setInterval(function () {
-	if (helperById(MODIFY_SEARCH_BTN) != null) helperById(MODIFY_SEARCH_BTN).click();
+	if (helperByFrameAndId(MODIFY_SEARCH_BTN) != null)
+		helperByFrameAndId(MODIFY_SEARCH_BTN).click();
 }, 9000);

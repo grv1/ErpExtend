@@ -1,5 +1,5 @@
 module.exports = {
-	purge: ['./selection.html', './popup.html'],
+	purge: ['./selection.html', './popup.html', './display.html'],
 	darkMode: false,
 	theme: {
 		colors: {

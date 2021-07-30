@@ -1,5 +1,6 @@
 window.onload = () => {
 	const selectBtn = document.getElementById('select');
+	const displayBtn = document.getElementById('display');
 	const executeBtn = document.getElementById('execute');
 	const stopBtn = document.getElementById('stop');
 	const courseList = document.getElementById('courseList');
@@ -16,6 +17,10 @@ window.onload = () => {
 
 	selectBtn.addEventListener('click', () => {
 		chrome.tabs.create({ url: chrome.runtime.getURL('selection.html') });
+	});
+
+	displayBtn.addEventListener('click', () => {
+		chrome.tabs.create({ url: chrome.runtime.getURL('display.html') });
 	});
 
 	executeBtn.addEventListener('click', () => {
