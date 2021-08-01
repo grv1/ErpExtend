@@ -1,5 +1,10 @@
 const courses = [
 	{
+		course_no: 'BITS F412',
+		course_title: 'PRACTICE SCHOOL II',
+		course_id: 4000
+	},
+	{
 		course_no: 'EEE F418',
 		course_title: 'MODERN COMMUNICATION TECHNOLOGIES',
 		course_id: 4242
@@ -1428,7 +1433,8 @@ window.onload = () => {
 		selectedList.forEach((item) => {
 			modifiedList.push({
 				name: item,
-				status: false
+				status: false,
+				sections: []
 			});
 		});
 

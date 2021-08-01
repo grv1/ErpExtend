@@ -34,10 +34,10 @@ chrome.storage.sync.get('selectedCourses', (e) => {
 		const temp = course.name.split(' : ')[0].split(' ');
 		courses.push(temp[0] + ' ' + temp[1]);
 	});
-	finalList = e.selectedCourses;
+	finalList = [...e.selectedCourses];
 });
 
-const clickRepeat = setInterval(function () {
+const clickRepeat = setInterval(() => {
 	helperById(DEGREE_SELECT) && (helperById(DEGREE_SELECT).selectedIndex = 4);
 	helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
 	helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
@@ -50,14 +50,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	}
 });
 
-setInterval(function () {
+setInterval(() => {
 	if (helperById(MODIFY_SEARCH_BTN) != null) {
 		const listSize = helperByQuerySelector(COURSES_QUERY).length;
 
 		for (let i = 0; i < listSize; i++) {
 			courses.forEach((course, index) => {
-				if (helperByQuerySelector(COURSES_QUERY)[i].innerText.search(course) != -1) {
+				const courseDiv = helperByQuerySelector(COURSES_QUERY)[i];
+				if (courseDiv.innerText.search(course) != -1) {
 					finalList[index].status = true;
+
+					const secList = courseDiv.parentNode.parentNode.parentNode.children;
+					for (let i = 1; i < secList.length; i++) {
+						finalList[index].sections.push(
+							secList[i].getElementsByTagName('a')[8].text.split('-')[0]
+						);
+					}
 				}
 			});
 		}
@@ -68,12 +76,13 @@ setInterval(function () {
 
 		courses.forEach((_, index) => {
 			finalList[index].status = false;
+			finalList[index].sections = [];
 		});
 
 		chrome.runtime.sendMessage({ todo: 'showCoursesNotif' });
 	}
 }, 5000);
 
-setInterval(function () {
+setInterval(() => {
 	if (helperById(MODIFY_SEARCH_BTN) != null) helperById(MODIFY_SEARCH_BTN).click();
 }, 9000);

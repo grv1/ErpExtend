@@ -7,9 +7,15 @@ window.onload = () => {
 
 	chrome.storage.sync.get('selectedCourses', (e) => {
 		if (e.selectedCourses) {
+			console.log(e.selectedCourses);
 			e.selectedCourses.forEach((course) => {
 				const li = document.createElement('li');
-				li.textContent = course.name + '       ' + course.status;
+				li.textContent =
+					course.name +
+					'       ' +
+					course.status +
+					' ' +
+					(course.sections.length > 0 ? course.sections[0] : '');
 				courseList.appendChild(li);
 			});
 		}
