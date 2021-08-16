@@ -5,76 +5,99 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link href="/css/tailwind.output.css" rel="stylesheet" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap"
+			rel="stylesheet"
+		/>
 		<title>ERP Extend</title>
 		<script src="popup.js"></script>
 	</head>
 	<body>
-		<div class="px-10 w-64 py-4 flex flex-col justify-center">
+		<div class="px-10 py-4 flex flex-col justify-center bg-blue-dark" style="width: 500px">
 			<ul id="courseList" class="font-bold"></ul>
-			<button
-				id="select"
-				class="
-					font-semibold
-					text-xs
-					bg-blue-dark
-					text-white
-					py-1
-					px-2
-					rounded-lg
-					mt-4
-					focus:outline-none
-				"
-			>
-				Add Courses
-			</button>
-			<button
-				id="execute"
-				class="
-					font-semibold
-					text-xs
-					bg-blue-dark
-					text-white
-					py-1
-					px-2
-					rounded-lg
-					mt-4
-					focus:outline-none
-				"
-			>
-				Run Script
-			</button>
-			<button
-				id="stop"
-				class="
-					font-semibold
-					text-xs
-					bg-blue-dark
-					text-white
-					py-1
-					px-2
-					rounded-lg
-					mt-4
-					focus:outline-none
-				"
-			>
-				Stop Script
-			</button>
-			<button
-				id="display"
-				class="
-					font-semibold
-					text-xs
-					bg-blue-dark
-					text-white
-					py-1
-					px-2
-					rounded-lg
-					mt-4
-					focus:outline-none
-				"
-			>
-				Display TTs
-			</button>
+			<div>
+				<button
+					id="select"
+					class="
+						mt-4
+						transition
+						ease-in-out
+						duration-200
+						hover:text-blue-dark hover:bg-pink
+						rounded-md
+						px-3
+						py-1
+						text-white
+						font-semibold
+						text-sm
+						focus:outline-none
+					"
+				>
+					Add Courses
+				</button>
+
+				<button
+					id="execute"
+					class="
+						mt-2
+						transition
+						ease-in-out
+						duration-200
+						hover:text-blue-dark hover:bg-pink
+						rounded-md
+						px-3
+						py-1
+						text-white
+						font-semibold
+						text-sm
+						focus:outline-none
+					"
+				>
+					Run Script
+				</button>
+
+				<button
+					id="stop"
+					class="
+						mt-2
+						transition
+						ease-in-out
+						duration-200
+						hover:text-blue-dark hover:bg-pink
+						rounded-md
+						px-3
+						py-1
+						text-white
+						font-semibold
+						text-sm
+						focus:outline-none
+					"
+				>
+					Stop Script
+				</button>
+
+				<button
+					id="display"
+					class="
+						mt-2
+						transition
+						ease-in-out
+						duration-200
+						hover:text-blue-dark hover:bg-pink
+						rounded-md
+						px-3
+						py-1
+						text-white
+						font-semibold
+						text-sm
+						focus:outline-none
+					"
+				>
+					Display TTs
+				</button>
+			</div>
 		</div>
 	</body>
 </html>

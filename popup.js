@@ -16,6 +16,7 @@ window.onload = () => {
 					course.status +
 					' ' +
 					(course.sections.length > 0 ? course.sections[0] : '');
+				li.className = 'text-white';
 				courseList.appendChild(li);
 			});
 		}

@@ -2,15 +2,24 @@ module.exports = {
 	purge: ['./selection.html', './popup.html', './display.html'],
 	darkMode: false,
 	theme: {
-		colors: {
-			blue: {
-				dark: '#0F1626',
-				light: '#141B2C'
-			},
-			white: '#D3D3D3',
-			pink: '#4DC274'
+		fontFamily: {
+			sans: 'Raleway'
 		},
-		extend: {}
+		extend: {
+			colors: {
+				blue: {
+					dark: '#1c1c1c',
+					light: '#141B2C'
+				},
+				white: '#D3D3D3',
+				pink: '#fe2a70',
+				tt: {
+					bg: '#121212',
+					cellbg: '#181818',
+					bdr: '#E0E0E0'
+				}
+			}
+		}
 	},
 	variants: {
 		extend: {}
