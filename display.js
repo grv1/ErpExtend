@@ -1,7 +1,7 @@
 const COLORS = [
+	'#7B71DC',
 	'#CF6679',
 	'#2DAE6D',
-	'#7B71DC',
 	'#F2853C',
 	'#5597DF',
 	'#9D81B5',
@@ -159,7 +159,6 @@ window.onload = () => {
 	};
 	chrome.storage.sync.get('selectedCourses', (e) => {
 		if (e.selectedCourses) {
-			console.log('hehe');
 			const finalList = e.selectedCourses.map((course) => ({
 				course: course.name.split(' : ')[0],
 				section: ['L1', 'P1', 'P2', 'L2', 'L3', 'L4', 'T1', 'T2']

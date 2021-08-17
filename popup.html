@@ -8,15 +8,31 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Lexend&display=swap"
 			rel="stylesheet"
 		/>
 		<title>ERP Extend</title>
 		<script src="popup.js"></script>
 	</head>
 	<body>
+		<div
+			class="fixed top-0 w-full text-center text-white pt-1 tracking-wide"
+			style="font-size: 0.5rem"
+		>
+			Developed by
+			<a target="__blank" href="https://satejbidvai.netlify.app/" style="color: #fe2a70"
+				>Satej Bidvai</a
+			>
+			&
+			<a
+				target="__blank"
+				href="https://www.linkedin.com/in/gaurav-dotiya/"
+				style="color: #fe2a70"
+				>Gaurav Dotiya</a
+			>
+		</div>
 		<div class="px-10 py-4 flex flex-col justify-center bg-blue-dark" style="width: 500px">
-			<ul id="courseList" class="font-bold"></ul>
+			<div id="courseList" class="flex flex-col gap-y-2 mt-4"></div>
 			<div>
 				<button
 					id="select"
@@ -25,7 +41,7 @@
 						transition
 						ease-in-out
 						duration-200
-						hover:text-blue-dark hover:bg-pink
+						hover:text-tt-bg hover:bg-pink
 						rounded-md
 						px-3
 						py-1

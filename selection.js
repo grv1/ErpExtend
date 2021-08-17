@@ -1277,7 +1277,7 @@ window.onload = () => {
 		inputElement.value = val;
 		inputElement.style.display = 'block';
 		inputElement.className =
-			'py-2 px-4 rounded-lg text-blue-dark font-bold text-base focus:outline-none';
+			'py-2 px-4 rounded-lg text-white font-bold text-base focus:outline-none bg-input-bg shadow-2xl';
 		inputElement.style.width = '500px';
 
 		inputElement.onchange = (e) => {
@@ -1289,7 +1289,6 @@ window.onload = () => {
 		};
 
 		container.appendChild(inputElement);
-		console.log(container);
 	};
 
 	const submitHandler = () => {

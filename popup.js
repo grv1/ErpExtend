@@ -7,18 +7,49 @@ window.onload = () => {
 
 	chrome.storage.sync.get('selectedCourses', (e) => {
 		if (e.selectedCourses) {
-			console.log(e.selectedCourses);
+			if (e.selectedCourses.length == 0) {
+				const div = document.createElement('div');
+				div.className = 'px-3 py-2 bg-blue-light shadow-md rounded-md text-white';
+				div.textContent = 'No courses selected!';
+
+				courseList.appendChild(div);
+			}
+
 			e.selectedCourses.forEach((course) => {
-				const li = document.createElement('li');
-				li.textContent =
-					course.name +
-					'       ' +
-					course.status +
-					' ' +
-					(course.sections.length > 0 ? course.sections[0] : '');
-				li.className = 'text-white';
-				courseList.appendChild(li);
+				const div = document.createElement('div');
+				div.className = 'px-2 py-1 bg-blue-light shadow-md rounded-md';
+
+				const innerDiv = document.createElement('div');
+				innerDiv.className = 'flex items-center';
+
+				const span = document.createElement('span');
+				if (course.status) span.className = 'text-green-400 text-xl';
+				else span.className = 'text-red-500 text-xl';
+				span.textContent = '●';
+				innerDiv.appendChild(span);
+
+				const innerP = document.createElement('p');
+				innerP.className = 'text-white pt-1 ml-1';
+				innerP.textContent = course.name;
+				innerDiv.appendChild(innerP);
+
+				div.appendChild(innerDiv);
+
+				if (course.status) {
+					const p = document.createElement('p');
+					p.className = 'text-white ml-4';
+					p.textContent = 'Available: ' + course.sections.join(' ');
+					div.appendChild(p);
+				}
+
+				courseList.appendChild(div);
 			});
+		} else {
+			const div = document.createElement('div');
+			div.className = 'px-3 py-2 bg-blue-light shadow-md rounded-md text-white';
+			div.textContent = 'No courses selected!';
+
+			courseList.appendChild(div);
 		}
 	});
 
