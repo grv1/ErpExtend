@@ -157,6 +157,15 @@ window.onload = () => {
 
 		ttList.appendChild(div1);
 	};
+
+	const noTT = () => {
+		const p = document.createElement('p');
+		p.className = 'text-white text-3xl text-center w-full mt-64';
+		p.textContent = 'No Possible Timetables!';
+
+		ttList.appendChild(p);
+	};
+
 	chrome.storage.sync.get('selectedCourses', (e) => {
 		if (e.selectedCourses) {
 			const finalList = e.selectedCourses.map((course) => ({
@@ -171,7 +180,8 @@ window.onload = () => {
 				.then((response) => response.json())
 				.then((data) => {
 					console.log(data);
-					data.list.map((tt, index) => addTT(tt, index + 1));
+					if (data.totalTTs === 0) noTT();
+					else data.list.map((tt, index) => addTT(tt, index + 1));
 				})
 				.catch((err) => console.log(err));
 		}

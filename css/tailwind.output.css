@@ -612,6 +612,10 @@ video {
   margin-top: 1.25rem;
 }
 
+.mt-64 {
+  margin-top: 16rem;
+}
+
 .ml-1 {
   margin-left: 0.25rem;
 }
