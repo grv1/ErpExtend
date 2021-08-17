@@ -1,9 +1,18 @@
 module.exports = {
-	purge: ['./selection.html', './popup.html', './display.html'],
+	purge: {
+		enabled: true,
+		content: [
+			'./selection.html',
+			'./popup.html',
+			'./display.html',
+			'./selection.js',
+			'./popup.js',
+			'./display.js'
+		]
+	},
 	darkMode: false,
 	theme: {
 		fontFamily: {
-			// sans: 'Atkinson Hyperlegible'
 			sans: 'Lexend'
 		},
 		extend: {

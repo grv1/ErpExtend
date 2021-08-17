@@ -1,19 +1,20 @@
 {
 	"manifest_version": 2,
-	"name": "ERP Extend",
+	"name": "ERP Assist",
 	"version": "1.0",
 	"description": "An extension to simplify things on ERP BITS Goa!",
 	"browser_action": {
 		"default_popup": "popup.html"
 	},
+	"icons": {
+		"32": "icon.png",
+		"48": "icon.png",
+		"64": "icon.png",
+		"128": "icon.png"
+	},
 	"background": {
 		"scripts": ["background.js"],
 		"persistent": false
 	},
-	"permissions": [
-		"tabs",
-		"storage",
-		"notifications",
-		"https://sis.erp.bits-pilani.ac.in/*"
-	]
+	"permissions": ["tabs", "storage", "notifications", "https://sis.erp.bits-pilani.ac.in/*"]
 }
