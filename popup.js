@@ -55,20 +55,28 @@ window.onload = () => {
 
 	selectBtn.addEventListener('click', () => {
 		chrome.tabs.create({ url: chrome.runtime.getURL('selection.html') });
+		window.close();
 	});
 
 	displayBtn.addEventListener('click', () => {
 		chrome.tabs.create({ url: chrome.runtime.getURL('display.html') });
+		window.close();
 	});
 
+	chrome.tabs.executeScript(null, { file: 'content.js' });
 	executeBtn.addEventListener('click', () => {
-		chrome.tabs.executeScript(null, { file: 'content.js' });
+		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+			const activeTab = tabs[0];
+			chrome.tabs.sendMessage(activeTab.id, { message: 'start' });
+			window.close();
+		});
 	});
 
 	stopBtn.addEventListener('click', () => {
 		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 			const activeTab = tabs[0];
 			chrome.tabs.sendMessage(activeTab.id, { message: 'stop' });
+			window.close();
 		});
 	});
 };

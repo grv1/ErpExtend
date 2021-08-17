@@ -35,54 +35,64 @@ chrome.storage.sync.get('selectedCourses', (e) => {
 		courses.push(temp[0] + ' ' + temp[1]);
 	});
 	finalList = [...e.selectedCourses];
+	console.log(finalList);
 });
 
-const clickRepeat = setInterval(() => {
-	helperById(DEGREE_SELECT) && (helperById(DEGREE_SELECT).selectedIndex = 4);
-	helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
-	helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
-	helperById(SAVE_BTN) && helperById(SAVE_BTN).click();
-}, 2500);
+let clickRepeat, checkCourses, modifySearch;
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request) => {
+	if (request.message === 'start') {
+		clickRepeat = setInterval(() => {
+			console.log('1');
+			helperById(DEGREE_SELECT) && (helperById(DEGREE_SELECT).selectedIndex = 4);
+			helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
+			helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
+			helperById(SAVE_BTN) && helperById(SAVE_BTN).click();
+		}, 2500);
+
+		checkCourses = setInterval(() => {
+			console.log('2');
+
+			if (helperById(MODIFY_SEARCH_BTN) != null) {
+				const listSize = helperByQuerySelector(COURSES_QUERY).length;
+
+				for (let i = 0; i < listSize; i++) {
+					courses.forEach((course, index) => {
+						const courseDiv = helperByQuerySelector(COURSES_QUERY)[i];
+						if (courseDiv.innerText.search(course) != -1) {
+							finalList[index].status = true;
+
+							const secList = courseDiv.parentNode.parentNode.parentNode.children;
+							for (let i = 1; i < secList.length; i++) {
+								finalList[index].sections.push(
+									secList[i].getElementsByTagName('a')[8].text.split('-')[0]
+								);
+							}
+						}
+					});
+				}
+
+				chrome.storage.sync.set({
+					selectedCourses: finalList
+				});
+
+				courses.forEach((_, index) => {
+					finalList[index].status = false;
+					finalList[index].sections = [];
+				});
+
+				chrome.runtime.sendMessage({ todo: 'showCoursesNotif' });
+			}
+		}, 5000);
+
+		modifySearch = setInterval(() => {
+			console.log('3');
+			if (helperById(MODIFY_SEARCH_BTN) != null) helperById(MODIFY_SEARCH_BTN).click();
+		}, 9000);
+	}
 	if (request.message === 'stop') {
 		clearInterval(clickRepeat);
+		clearInterval(checkCourses);
+		clearInterval(modifySearch);
 	}
 });
-
-setInterval(() => {
-	if (helperById(MODIFY_SEARCH_BTN) != null) {
-		const listSize = helperByQuerySelector(COURSES_QUERY).length;
-
-		for (let i = 0; i < listSize; i++) {
-			courses.forEach((course, index) => {
-				const courseDiv = helperByQuerySelector(COURSES_QUERY)[i];
-				if (courseDiv.innerText.search(course) != -1) {
-					finalList[index].status = true;
-
-					const secList = courseDiv.parentNode.parentNode.parentNode.children;
-					for (let i = 1; i < secList.length; i++) {
-						finalList[index].sections.push(
-							secList[i].getElementsByTagName('a')[8].text.split('-')[0]
-						);
-					}
-				}
-			});
-		}
-
-		chrome.storage.sync.set({
-			selectedCourses: finalList
-		});
-
-		courses.forEach((_, index) => {
-			finalList[index].status = false;
-			finalList[index].sections = [];
-		});
-
-		chrome.runtime.sendMessage({ todo: 'showCoursesNotif' });
-	}
-}, 5000);
-
-setInterval(() => {
-	if (helperById(MODIFY_SEARCH_BTN) != null) helperById(MODIFY_SEARCH_BTN).click();
-}, 9000);
