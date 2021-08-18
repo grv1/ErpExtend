@@ -35,7 +35,6 @@ chrome.storage.sync.get('selectedCourses', (e) => {
 		courses.push(temp[0] + ' ' + temp[1]);
 	});
 	finalList = [...e.selectedCourses];
-	console.log(finalList);
 });
 
 let clickRepeat, checkCourses, modifySearch;
@@ -43,7 +42,6 @@ let clickRepeat, checkCourses, modifySearch;
 chrome.runtime.onMessage.addListener((request) => {
 	if (request.message === 'start') {
 		clickRepeat = setInterval(() => {
-			console.log('1');
 			helperById(DEGREE_SELECT) && (helperById(DEGREE_SELECT).selectedIndex = 4);
 			helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
 			helperById(SEARCH_BTN) && helperById(SEARCH_BTN).click();
@@ -51,8 +49,6 @@ chrome.runtime.onMessage.addListener((request) => {
 		}, 2500);
 
 		checkCourses = setInterval(() => {
-			console.log('2');
-
 			if (helperById(MODIFY_SEARCH_BTN) != null) {
 				const listSize = helperByQuerySelector(COURSES_QUERY).length;
 
@@ -86,7 +82,6 @@ chrome.runtime.onMessage.addListener((request) => {
 		}, 5000);
 
 		modifySearch = setInterval(() => {
-			console.log('3');
 			if (helperById(MODIFY_SEARCH_BTN) != null) helperById(MODIFY_SEARCH_BTN).click();
 		}, 9000);
 	}

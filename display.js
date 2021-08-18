@@ -45,8 +45,6 @@ window.onload = () => {
 			});
 		});
 
-		console.log(singleTT);
-
 		const div1 = document.createElement('div');
 		div1.className = 'w-11/12 mx-auto';
 
@@ -170,7 +168,7 @@ window.onload = () => {
 		if (e.selectedCourses) {
 			const finalList = e.selectedCourses.map((course) => ({
 				course: course.name.split(' : ')[0],
-				section: ['L1', 'P1', 'P2', 'L2', 'L3', 'L4', 'T1', 'T2']
+				section: course.sections
 			}));
 			fetch('http://localhost:5000/api/tt/generatett', {
 				method: 'POST',
@@ -179,7 +177,6 @@ window.onload = () => {
 			})
 				.then((response) => response.json())
 				.then((data) => {
-					console.log(data);
 					if (data.totalTTs === 0) noTT();
 					else data.list.map((tt, index) => addTT(tt, index + 1));
 				})
