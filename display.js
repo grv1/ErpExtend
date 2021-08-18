@@ -166,10 +166,12 @@ window.onload = () => {
 
 	chrome.storage.sync.get('selectedCourses', (e) => {
 		if (e.selectedCourses) {
-			const finalList = e.selectedCourses.map((course) => ({
-				course: course.name.split(' : ')[0],
-				section: course.sections
-			}));
+			const finalList = e.selectedCourses
+				.filter((course) => course.status)
+				.map((course) => ({
+					course: course.name.split(' : ')[0],
+					section: course.sections
+				}));
 			fetch('http://localhost:5000/api/tt/generatett', {
 				method: 'POST',
 				body: JSON.stringify({ courseIdArr: finalList }),
