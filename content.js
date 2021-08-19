@@ -27,15 +27,6 @@ const helperByQuerySelector = (query) => {
 /**
  * Code
  */
-let courses = [];
-let finalList = [];
-chrome.storage.sync.get('selectedCourses', (e) => {
-	e.selectedCourses?.forEach((course) => {
-		const temp = course.name.split(' : ')[0].split(' ');
-		courses.push(temp[0] + ' ' + temp[1]);
-	});
-	finalList = [...e.selectedCourses];
-});
 
 let clickRepeat, checkCourses, modifySearch;
 
@@ -49,35 +40,47 @@ chrome.runtime.onMessage.addListener((request) => {
 		}, 2500);
 
 		checkCourses = setInterval(() => {
+			let courses = [];
+			let finalList = [];
+
 			if (helperById(MODIFY_SEARCH_BTN) != null) {
-				const listSize = helperByQuerySelector(COURSES_QUERY).length;
-
-				for (let i = 0; i < listSize; i++) {
-					courses.forEach((course, index) => {
-						const courseDiv = helperByQuerySelector(COURSES_QUERY)[i];
-						if (courseDiv.innerText.search(course) != -1) {
-							finalList[index].status = true;
-
-							const secList = courseDiv.parentNode.parentNode.parentNode.children;
-							for (let i = 1; i < secList.length; i++) {
-								finalList[index].sections.push(
-									secList[i].getElementsByTagName('a')[8].text.split('-')[0]
-								);
-							}
-						}
+				chrome.storage.sync.get('selectedCourses', (e) => {
+					e.selectedCourses?.forEach((course) => {
+						const temp = course.name.split(' : ')[0].split(' ');
+						courses.push(temp[0] + ' ' + temp[1]);
 					});
-				}
+					finalList = [...e.selectedCourses];
 
-				chrome.storage.sync.set({
-					selectedCourses: finalList
+					const listSize = helperByQuerySelector(COURSES_QUERY).length;
+
+					for (let i = 0; i < listSize; i++) {
+						courses.forEach((course, index) => {
+							const courseDiv = helperByQuerySelector(COURSES_QUERY)[i];
+							if (courseDiv.innerText.search(course) != -1) {
+								finalList[index].status = true;
+
+								const secList = courseDiv.parentNode.parentNode.parentNode.children;
+								console.log(sectionList);
+								for (let i = 1; i < secList.length; i++) {
+									finalList[index].sections.push(
+										secList[i].getElementsByTagName('a')[8].text.split('-')[0]
+									);
+								}
+							}
+						});
+					}
+
+					chrome.storage.sync.set({
+						selectedCourses: finalList
+					});
+
+					courses.forEach((_, index) => {
+						finalList[index].status = false;
+						finalList[index].sections = [];
+					});
+
+					chrome.runtime.sendMessage({ todo: 'showCoursesNotif' });
 				});
-
-				courses.forEach((_, index) => {
-					finalList[index].status = false;
-					finalList[index].sections = [];
-				});
-
-				chrome.runtime.sendMessage({ todo: 'showCoursesNotif' });
 			}
 		}, 5000);
 

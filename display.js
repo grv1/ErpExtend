@@ -175,7 +175,7 @@ window.onload = () => {
 
 			if (finalList.length === 0) noTT();
 			else
-				fetch('http://localhost:5000/api/tt/generatett', {
+				fetch('http://68.183.45.22:1337/api/tt/generatett', {
 					method: 'POST',
 					body: JSON.stringify({ courseIdArr: finalList }),
 					headers: { 'Content-type': 'application/json; charset=UTF-8' }
