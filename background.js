@@ -1,16 +1,17 @@
-chrome.extension.onMessage.addListener((request, sender, sendResponse) => {
-	console.log(sender.tab ? 'from a content script:' + sender.tab.url : 'from the extension');
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	if (request.todo == 'showCoursesNotif') {
-		console.log('He');
 		const notifOptions = {
 			type: 'basic',
 			iconUrl: 'icon.png',
 			title: 'Courses Available!',
 			message: 'Some courses are now available! Check extension for more details.',
-			priority: 2
+			priority: 1
 		};
 
-		chrome.notifications.create('courseNotif', notifOptions);
+		chrome.notifications.create(`my-notification-${Date.now()}`, notifOptions, function (id) {
+			console.log('Last error:', chrome.runtime.lastError);
+		});
+
 		// chrome.notifications.clear('courseNotif');
 	}
 });
