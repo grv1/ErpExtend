@@ -58,13 +58,15 @@ chrome.runtime.onMessage.addListener((request) => {
 							const courseDiv = helperByQuerySelector(COURSES_QUERY)[i];
 							if (courseDiv.innerText.search(course) != -1) {
 								finalList[index].status = true;
+								finalList[index].sections = [];
 
-								const secList = courseDiv.parentNode.parentNode.parentNode.children;
-								console.log(sectionList);
-								for (let i = 1; i < secList.length; i++) {
-									finalList[index].sections.push(
-										secList[i].getElementsByTagName('a')[8].text.split('-')[0]
+								const secList =
+									courseDiv.parentNode.parentNode.parentNode.children[1].getElementsByTagName(
+										'a'
 									);
+
+								for (let j = 8; j < secList.length; j += 9) {
+									finalList[index].sections.push(secList[j].text.split('-')[0]);
 								}
 							}
 						});
