@@ -172,17 +172,20 @@ window.onload = () => {
 					course: course.name.split(' : ')[0],
 					section: course.sections
 				}));
-			fetch('http://localhost:5000/api/tt/generatett', {
-				method: 'POST',
-				body: JSON.stringify({ courseIdArr: finalList }),
-				headers: { 'Content-type': 'application/json; charset=UTF-8' }
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					if (data.totalTTs === 0) noTT();
-					else data.list.map((tt, index) => addTT(tt, index + 1));
+
+			if (finalList.length === 0) noTT();
+			else
+				fetch('http://localhost:5000/api/tt/generatett', {
+					method: 'POST',
+					body: JSON.stringify({ courseIdArr: finalList }),
+					headers: { 'Content-type': 'application/json; charset=UTF-8' }
 				})
-				.catch((err) => console.log(err));
+					.then((response) => response.json())
+					.then((data) => {
+						if (data.totalTTs === 0) noTT();
+						else data.list.map((tt, index) => addTT(tt, index + 1));
+					})
+					.catch((err) => console.log(err));
 		}
 	});
 };
